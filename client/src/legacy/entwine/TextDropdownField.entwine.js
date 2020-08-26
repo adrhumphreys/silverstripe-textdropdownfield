@@ -10,14 +10,14 @@ jQuery.entwine('ss', ($) => {
       const schemaState = this.data('state');
 
       const setValue = (fieldName, value) => {
-        const input = document.querySelector(`input[name="${fieldName}"]`)
+        const input = document.querySelector(`input[name="${fieldName}"]`);
 
         if (!input) {
           return;
         }
 
         input.value = value;
-      }
+      };
 
       ReactDOM.render(<Component {...schemaState} onAutofill={setValue} />, this[0]);
     },
@@ -25,5 +25,5 @@ jQuery.entwine('ss', ($) => {
     onunmatch() {
       ReactDOM.unmountComponentAtNode(this[0]);
     },
-  })
+  });
 });

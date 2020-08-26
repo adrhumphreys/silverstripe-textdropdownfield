@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, { useEffect, useState } from 'react';
 import fieldHolder from 'components/FieldHolder/FieldHolder';
 import {
   DropdownItem,
@@ -11,34 +11,39 @@ import {
 
 const TextDropdownField = (props) => {
   const { textField, dropdownField, onAutofill } = props;
-  let [dropdownOpen, setDropdownOpen] = useState(false)
-  let [content, setContent] = useState(textField.value)
-  let [dropdown, setDropdown] = useState(dropdownField.value)
-  let dropdownOptions = dropdownField.source
+  const [dropdownOpen, setDropdownOpen] = useState(false);
+  const [content, setContent] = useState(textField.value);
+  const [dropdown, setDropdown] = useState(dropdownField.value);
+  const dropdownOptions = dropdownField.source;
 
   useEffect(() => {
-    setContent(textField.value)
-  },[textField.value])
+    setContent(textField.value);
+  }, [textField.value]);
 
   useEffect(() => {
-    setDropdown(dropdownField.value)
-  },[dropdownField.value])
+    setDropdown(dropdownField.value);
+  }, [dropdownField.value]);
 
   useEffect(() => {
-    if (typeof onAutofill !== "function") {
+    if (typeof onAutofill !== 'function') {
       return;
     }
 
-    onAutofill(textField.name, content)
-  }, [content])
+    onAutofill(textField.name, content);
+  }, [content]);
 
   useEffect(() => {
-    if (typeof onAutofill !== "function") {
+    if (typeof onAutofill !== 'function') {
       return;
     }
 
-    onAutofill(dropdownField.name, dropdown)
-  }, [dropdown])
+    onAutofill(dropdownField.name, dropdown);
+  }, [dropdown]);
+
+  const selectedItem = dropdownOptions.find(option => option.value === dropdown);
+  // This handles the case where the selected item isn't
+  // passed through as the source item as it's been removed
+  const selectedTitle = selectedItem ? selectedItem.title : dropdown;
 
   return (
     <InputGroup>
@@ -54,12 +59,12 @@ const TextDropdownField = (props) => {
         toggle={() => setDropdownOpen(!dropdownOpen)}
       >
         <DropdownToggle caret outline>
-          {dropdownOptions.find(option => option.value === dropdown).title}
+          {selectedTitle}
         </DropdownToggle>
         <DropdownMenu>
           {dropdownOptions.map(option => (
             <DropdownItem
-              dangerouslySetInnerHTML={{__html: option.title}}
+              dangerouslySetInnerHTML={{ __html: option.title }}
               value={option.value}
               disabled={option.disabled}
               onClick={() => setDropdown(option.value)}
@@ -68,7 +73,7 @@ const TextDropdownField = (props) => {
         </DropdownMenu>
       </InputGroupButtonDropdown>
     </InputGroup>
-  )
-}
+  );
+};
 
 export default fieldHolder(TextDropdownField);
