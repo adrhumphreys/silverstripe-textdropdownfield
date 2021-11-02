@@ -40,7 +40,7 @@ const TextDropdownField = (props) => {
     onAutofill(dropdownField.name, dropdown);
   }, [dropdown]);
 
-  const selectedItem = dropdownOptions.find(option => option.value === dropdown);
+  const selectedItem = dropdownOptions.find(option => option.value == dropdown);
   // This handles the case where the selected item isn't
   // passed through as the source item as it's been removed
   const selectedTitle = selectedItem ? selectedItem.title : dropdown;
