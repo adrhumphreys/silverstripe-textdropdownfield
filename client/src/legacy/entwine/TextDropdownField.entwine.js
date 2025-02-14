@@ -1,12 +1,18 @@
-import jQuery from 'jquery';
 import { loadComponent } from 'lib/Injector';
 import React from 'react';
-import ReactDOM from 'react-dom';
+import { createRoot } from 'react-dom/client';
 
-jQuery.entwine('ss', ($) => {
+window.jQuery.entwine('ss', ($) => {
   $('.js-injector-boot .form__field-holder .text-dropdown-field').entwine({
+    ReactRoot: null,
+
     onmatch() {
-      const Component = loadComponent('TextDropdownField');
+      const cmsContent = this.closest('.cms-content').attr('id');
+      const context = (cmsContent)
+        ? { context: cmsContent }
+        : {};
+
+      const Component = loadComponent('TextDropdownField', context);
       const schemaState = this.data('state');
 
       const setValue = (fieldName, value) => {
@@ -19,11 +25,22 @@ jQuery.entwine('ss', ($) => {
         input.value = value;
       };
 
-      ReactDOM.render(<Component {...schemaState} onAutofill={setValue} />, this[0]);
+      let root = this.getReactRoot();
+      if (!root) {
+        root = createRoot(this[0]);
+        this.setReactRoot(root);
+      }
+      root.render(
+        <Component {...schemaState} onAutofill={setValue} />
+      );
     },
 
     onunmatch() {
-      ReactDOM.unmountComponentAtNode(this[0]);
+      const root = this.getReactRoot();
+      if (root) {
+        root.unmount();
+        this.setReactRoot(null);
+      }
     },
   });
 });
