@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from 'react';
 import fieldHolder from 'components/FieldHolder/FieldHolder';
 import {
+  Dropdown,
   DropdownItem,
   DropdownMenu,
   DropdownToggle,
   Input,
   InputGroup,
-  InputGroupButtonDropdown
 } from 'reactstrap';
 
 const TextDropdownField = (props) => {
@@ -56,11 +56,11 @@ const TextDropdownField = (props) => {
           setContent(e.target.value);
         }}
       />
-      <InputGroupButtonDropdown
-        name={dropdownField.name}
-        addonType="append"
+
+      <Dropdown
         isOpen={dropdownOpen}
         toggle={() => setDropdownOpen(!dropdownOpen)}
+        direction="down"
       >
         <DropdownToggle caret outline>
           {selectedTitle}
@@ -68,6 +68,7 @@ const TextDropdownField = (props) => {
         <DropdownMenu>
           {dropdownOptions.map(option => (
             <DropdownItem
+              key={option.value}
               dangerouslySetInnerHTML={{ __html: option.title }}
               value={option.value}
               disabled={option.disabled}
@@ -78,7 +79,7 @@ const TextDropdownField = (props) => {
             />
           ))}
         </DropdownMenu>
-      </InputGroupButtonDropdown>
+      </Dropdown>
     </InputGroup>
   );
 };

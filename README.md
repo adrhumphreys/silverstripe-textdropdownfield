@@ -5,8 +5,8 @@ This lets you add field that is a combination of a dropdown and a text field
 
 ## Requirements
 
-* PHP ^7.4 || ^8.0
-* SilverStripe ^4.0 || ^5
+* PHP ^8.3
+* SilverStripe ^6
 
 ## Installation
 ```
